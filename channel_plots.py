@@ -5,6 +5,7 @@ Reads the EDF files from the music project (read-only) and writes everything int
 
 Run:  python channel_plots.py
 """
+import os
 import re
 from pathlib import Path
 
@@ -20,7 +21,8 @@ from scipy.stats import wilcoxon
 
 mne.set_log_level("ERROR")
 HERE = Path(__file__).parent
-DATA = Path(r"C:\Users\Pranit\eeg-music-project\data\tempo\music1")  # read-only source
+# Read-only source: set the EEG_DATA environment variable, or keep the music project's data folder next to this one.
+DATA = Path(os.environ.get("EEG_DATA", HERE.parent / "eeg-music-project" / "data" / "tempo" / "music1"))
 FIG, RES = HERE / "figures", HERE / "results"
 FIG.mkdir(exist_ok=True)
 RES.mkdir(exist_ok=True)

@@ -2,11 +2,17 @@
 
 Channel-by-channel view of the EEG from the music dataset: raw traces, band power per channel, group results and scalp maps, with written observations.
 
-This folder is separate from the main project. It only **reads** the EEG files from `C:\Users\Pranit\eeg-music-project\data\tempo\music1` and writes everything here.
+This project is separate from the main one, [EEG-Music-Analysis](https://github.com/pranit432/EEG-Music-Analysis). It only **reads** the EEG files and writes everything here.
 
 ## Data
 
-The EEG files are **not included** in this repository. Download the [Music Tempo Emotional Impact EEG Dataset](https://www.kaggle.com/datasets/aphros/music-tempo-emotional-impact-eeg-dataset) from Kaggle (by `aphros`, Apache-2.0), then set `DATA` near the top of `channel_plots.py` to the folder that contains the subject folders (`S01`, `S02`, ...) of the filtered `music1` recordings. The saved tables and figures in `results/` and `figures/` are included so the website runs without the raw data.
+The EEG files are **not included** in this repository. Download the [Music Tempo Emotional Impact EEG Dataset](https://www.kaggle.com/datasets/aphros/music-tempo-emotional-impact-eeg-dataset) from Kaggle (by `aphros`, Apache-2.0), then point the `EEG_DATA` environment variable at the folder that contains the subject folders (`S01`, `S02`, ...) of the filtered `music1` recordings. If you don't set it, the scripts look for `../eeg-music-project/data/tempo/music1` next to this folder. The saved tables and figures in `results/` and `figures/` are included so the website runs without the raw data.
+
+## Setup
+
+```
+pip install -r requirements.txt
+```
 
 ## Contents
 
@@ -30,7 +36,6 @@ The EEG files are **not included** in this repository. Download the [Music Tempo
 ## The website
 
 ```
-cd C:\Users\Pranit\eeg-channel-plots
 python -m streamlit run app.py --server.port 8503
 ```
 
@@ -53,11 +58,10 @@ The app needs `results/subject_channel_band.npz`, which `channel_plots.py` creat
 ## Make the figures and tables
 
 ```
-cd C:\Users\Pranit\eeg-channel-plots
 python channel_plots.py
 python extra_checks.py
 ```
 
-`channel_plots.py` takes about a minute. It needs `mne`, `numpy`, `scipy`, `pandas` and `matplotlib` (all already installed for the main project).
+`channel_plots.py` takes about a minute and needs the raw EEG files (see Data above).
 
 To use another subject for Figures 1 and 2, change `"S09", "E01"` in the last block of `channel_plots.py`.
