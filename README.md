@@ -6,7 +6,7 @@ This project is separate from the main one, [EEG-Music-Analysis](https://github.
 
 ## Data
 
-The EEG files are **not included** in this repository. Download the [Music Tempo Emotional Impact EEG Dataset](https://www.kaggle.com/datasets/aphros/music-tempo-emotional-impact-eeg-dataset) from Kaggle (by `aphros`, Apache-2.0), then point the `EEG_DATA` environment variable at the folder that contains the subject folders (`S01`, `S02`, ...) of the filtered `music1` recordings. If you don't set it, the scripts look for `../eeg-music-project/data/tempo/music1` next to this folder. The saved tables and figures in `results/` and `figures/` are included so the website runs without the raw data.
+The EEG files are **not included** in this repository. Download the [Music Tempo Emotional Impact EEG Dataset](https://www.kaggle.com/datasets/aphros/music-tempo-emotional-impact-eeg-dataset) from Kaggle (by `aphros`, Apache-2.0), then point the `EEG_DATA` environment variable at the folder that contains the subject folders (`S01`, `S02`, ...) of the filtered `music1` recordings. If you don't set it, the scripts look for `../eeg-music-project/data/tempo/music1` next to this folder. The saved tables and figures in `results/` and `figures/` are included, so every page of the website except **Explore a recording** runs without the raw data (that page shows a message instead).
 
 ## Setup
 

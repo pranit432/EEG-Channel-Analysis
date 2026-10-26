@@ -165,6 +165,10 @@ def explore_page():
     st.write("Pick a person and a recording. The traces show the electrical activity of every channel; the heatmap and the scalp maps show how much "
              "of each channel's activity falls in each frequency band.")
     subs = subjects()
+    if not subs:
+        st.info("The raw EEG files were not found, so this page is unavailable. Set the EEG_DATA environment variable to the folder that "
+                "holds the subject folders (see the README). The other pages work without them.")
+        return
     c1, c2 = st.columns(2)
     sub = c1.selectbox("Subject", subs, index=subs.index(DEFAULT_SUBJECT), key="exp_sub", help="S09 has the biggest baseline-vs-music change; S01 has almost none.")
     recs = recordings(sub)

@@ -7,10 +7,17 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+import pytest
 from streamlit.testing.v1 import AppTest
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))  # AppTest does not add the script folder
+
+import channel_plots as cp
+
+# The raw EEG files are not in the repository, so the tests that read them are skipped when they are missing.
+HAS_RAW = cp.DATA.exists() and any(cp.DATA.glob("S*"))
+needs_raw = pytest.mark.skipif(not HAS_RAW, reason="raw EEG files not found (set EEG_DATA)")
 
 
 def run_page(page, **state):
@@ -24,6 +31,15 @@ def metrics(at):
     return {m.label: m.value for m in at.metric}
 
 
+def test_explore_page_without_raw_data_shows_a_message(monkeypatch):
+    import views
+    monkeypatch.setattr(views, "subjects", lambda: [])  # undone after the test, so the other tests are not affected
+    at = run_page("explore_page")
+    assert not at.exception
+    assert "raw EEG files were not found" in at.info[0].value
+
+
+@needs_raw
 def test_explore_defaults_to_s09_e01():
     at = run_page("explore_page")
     assert not at.exception
@@ -33,6 +49,7 @@ def test_explore_defaults_to_s09_e01():
     assert m["Channels dropped as noisy"] == "none"  # S09 E01 has no noisy channel
 
 
+@needs_raw
 def test_explore_baseline_of_s09_reports_the_noisy_channel():
     at = AppTest.from_string("import views\nviews.explore_page()", default_timeout=180).run()
     at.selectbox(key="exp_rec_S09").set_value("BS").run()
